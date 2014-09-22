@@ -21,8 +21,8 @@ class OneSpider(scrapy.Spider):
 
     def parse(self, response):
         sel = Selector(response)  
-        items = sel.xpath('//div[@id="carousel-one"]/div[@class="carousel-inner"]/div[@class="item active"]') # 取活跃的（最新的）
-#         items = sel.xpath('//div[@id="carousel-one"]/div[@class="carousel-inner"]/div')  
+#         items = sel.xpath('//div[@id="carousel-one"]/div[@class="carousel-inner"]/div[@class="item active"]') # 取活跃的（最新的）
+        items = sel.xpath('//div[@id="carousel-one"]/div[@class="carousel-inner"]/div')  
 #         response.xpath('//a[contains(text(), "悲欢离合")]/text()').extract() // 包含关键字"悲欢离合"
         
         for i in items:
@@ -37,5 +37,11 @@ class OneSpider(scrapy.Spider):
             
             item['link'] = link
             item['vol'] = vol
-            item['title'] = [t.encode('utf-8') for t in title] 
+            item['title'] = [t.encode('utf-8') for t in title if '悲欢离合' in t.encode("utf-8")]  # if
+#             for t in title:
+#                 print type('悲欢离合')
+#                 print type(t.encode("utf-8"))
+#                 print t.encode("utf-8")
+#                 print '悲欢离合' in t.encode("utf-8")
+            
             yield item
